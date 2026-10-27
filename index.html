@@ -1,543 +1,368 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CTM Cagliari #174 - Kindle Display</title>
-    <!-- Tailwind CSS for utility classes -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Strict E-Ink Display Overrides (Zero flicker/ghosting) */
-        * {
-            -webkit-animation: none !important;
-            -moz-animation: none !important;
-            -o-animation: none !important;
-            animation: none !important;
-            -webkit-transition: none !important;
-            -moz-transition: none !important;
-            -o-transition: none !important;
-            transition: none !important;
-            box-shadow: none !important;
-            text-shadow: none !important;
-            border-radius: 0px !important; /* Sharp crisp box edges for E-Ink */
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CTM Cagliari - Fermata Cocco Ortu</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      background-color: #FFFFFF !important;
+      color: #000000 !important;
+      border-color: #000000 !important;
+      font-family: Arial, Helvetica, sans-serif !important;
+      box-shadow: none !important;
+      text-shadow: none !important;
+      transition: none !important;
+      animation: none !important;
+    }
 
-        body {
-            background-color: #FFFFFF !important;
-            color: #000000 !important;
-            font-family: Arial, Helvetica, sans-serif;
-            margin: 0;
-            padding: 0;
-            user-select: none;
-        }
+    body {
+      padding: 10px;
+      background: #FFFFFF;
+      color: #000000;
+    }
 
-        /* Pure black crisp borders */
-        .eink-border {
-            border: 4px solid #000000;
-        }
+    header {
+      border-bottom: 4px solid #000000;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+    }
 
-        .eink-border-thin {
-            border: 2px solid #000000;
-        }
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-        .eink-border-b {
-            border-bottom: 4px solid #000000;
-        }
+    h1 {
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
 
-        /* High contrast e-ink buttons */
-        .eink-btn {
-            background-color: #FFFFFF;
-            color: #000000;
-            border: 4px solid #000000;
-            font-weight: 900;
-        }
+    .stop-badge {
+      font-size: 15px;
+      font-weight: 900;
+      border: 3px solid #000000;
+      padding: 2px 6px;
+    }
 
-        .eink-btn:active, .eink-btn-selected {
-            background-color: #000000 !important;
-            color: #FFFFFF !important;
-        }
+    .stop-details {
+      font-size: 14px;
+      font-weight: bold;
+      margin-top: 4px;
+    }
 
-        .eink-btn-inverted {
-            background-color: #000000;
-            color: #FFFFFF;
-            border: 4px solid #000000;
-            font-weight: 900;
-        }
+    .data-source {
+      font-size: 11px;
+      font-weight: normal;
+      margin-top: 2px;
+    }
 
-        .eink-btn-inverted:active {
-            background-color: #FFFFFF;
-            color: #000000;
-        }
+    /* FILTRI */
+    .filter-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
 
-        /* Large clock & time display numbers for room readability */
-        .giant-text {
-            font-size: clamp(3.2rem, 11vw, 7.5rem);
-            line-height: 0.95;
-            font-weight: 900;
-        }
-        
-        .huge-text {
-            font-size: clamp(2rem, 6vw, 4rem);
-            line-height: 1;
-            font-weight: 900;
-        }
-    </style>
+    .filter-btn {
+      flex: 1;
+      padding: 8px 0;
+      font-size: 15px;
+      font-weight: bold;
+      border: 3px solid #000000;
+      background: #FFFFFF;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .filter-btn.active {
+      background: #000000 !important;
+      color: #FFFFFF !important;
+    }
+
+    /* HERO CARD */
+    .hero-card {
+      border: 4px solid #000000;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .hero-header {
+      font-size: 12px;
+      font-weight: 900;
+      border-bottom: 2px solid #000000;
+      padding-bottom: 3px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .hero-body {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .line-badge-hero {
+      font-size: 54px;
+      font-weight: 900;
+      border: 5px solid #000000;
+      width: 85px;
+      height: 85px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+
+    .hero-info {
+      flex: 1;
+      margin-left: 12px;
+    }
+
+    .hero-dest {
+      font-size: 18px;
+      font-weight: 900;
+      text-transform: uppercase;
+      line-height: 1.1;
+      margin-bottom: 4px;
+    }
+
+    .hero-timer {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .hero-mins {
+      font-size: 46px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .hero-eta {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    /* LISTA SECONDARIA */
+    .section-title {
+      font-size: 14px;
+      font-weight: 900;
+      border-bottom: 3px solid #000000;
+      padding-bottom: 2px;
+      margin-bottom: 6px;
+    }
+
+    .bus-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .bus-row {
+      border: 2px solid #000000;
+      padding: 6px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .bus-row-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .line-badge-small {
+      font-size: 20px;
+      font-weight: 900;
+      border: 2px solid #000000;
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .bus-row-dest {
+      font-size: 15px;
+      font-weight: bold;
+    }
+
+    .bus-row-right {
+      text-align: right;
+    }
+
+    .bus-row-mins {
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .bus-row-clock {
+      font-size: 11px;
+      font-weight: bold;
+    }
+
+    .btn-refresh {
+      width: 100%;
+      padding: 12px 0;
+      font-size: 18px;
+      font-weight: 900;
+      border: 4px solid #000000;
+      background: #FFFFFF;
+      cursor: pointer;
+      margin-bottom: 8px;
+    }
+
+    footer {
+      border-top: 2px solid #000000;
+      padding-top: 4px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      font-weight: bold;
+    }
+  </style>
 </head>
-<body class="flex flex-col min-h-screen bg-white text-black justify-between p-3 sm:p-5">
+<body>
 
-    <!-- HEADER / TOP BAR -->
-    <header class="flex justify-between items-center eink-border-b pb-3 mb-3">
-        <div>
-            <div class="flex items-center space-x-2">
-                <span class="text-sm font-black border-2 border-black px-1.5 py-0.5 bg-black text-white" id="stopIdBadge">CTM #174</span>
-                <span class="text-lg sm:text-2xl font-black uppercase tracking-tight" id="headerStopName">COCCO ORTU (FOSCOLO)</span>
-            </div>
-            <div class="text-xs font-bold uppercase mt-1">
-                CAGLIARI • MARGINE ROSSO / S. BARTOLOMEO / S. ELIA
-            </div>
-        </div>
-        
-        <div class="flex items-center space-x-2 sm:space-x-4">
-            <!-- Clock -->
-            <div class="text-2xl sm:text-4xl font-black tracking-tight" id="clockDisplay">00:00</div>
-            
-            <!-- Config Toggle Button -->
-            <button onclick="toggleConfigModal()" class="eink-btn px-2 sm:px-3 py-1 text-base sm:text-lg uppercase" aria-label="Impostazioni">
-                ⚙ IMP.
-            </button>
-        </div>
-    </header>
-
-    <!-- LINE FILTER SELECTOR BAR -->
-    <nav class="flex items-center space-x-2 mb-3">
-        <span class="text-xs sm:text-sm font-black uppercase">FILTRA:</span>
-        <button id="filterAll" onclick="setLineFilter('ALL')" class="eink-btn eink-btn-selected px-3 py-1 text-xs sm:text-sm uppercase">TUTTE LE LINEE</button>
-        <button id="filter3" onclick="setLineFilter('3')" class="eink-btn px-3 py-1 text-xs sm:text-sm uppercase">LINEA 3</button>
-        <button id="filter6" onclick="setLineFilter('6')" class="eink-btn px-3 py-1 text-xs sm:text-sm uppercase">LINEA 6</button>
-    </nav>
-
-    <!-- MAIN DISPLAY CONTENT (Optimized for E-Ink viewing across the room) -->
-    <main class="flex-grow flex flex-col justify-center my-1 space-y-4">
-        
-        <!-- NEXT BUS CARD (IMMEDIATE ARRIVAL) -->
-        <section class="eink-border p-4 sm:p-6 flex flex-col justify-between relative bg-white">
-            
-            <!-- Line & Destination Info -->
-            <div class="flex justify-between items-start border-b-4 border-black pb-3">
-                <div>
-                    <span class="text-xs sm:text-sm font-black tracking-widest block uppercase">PROSSIMO AUTOBUS IN ARRIVO</span>
-                    <h1 class="giant-text tracking-tighter" id="nextBusLine">LINEA --</h1>
-                </div>
-                <div class="text-right max-w-[55%]">
-                    <span class="text-xs sm:text-sm font-black tracking-widest block uppercase">DIREZIONE</span>
-                    <h2 class="text-lg sm:text-3xl font-black uppercase leading-tight" id="nextBusDest">--</h2>
-                </div>
-            </div>
-
-            <!-- Arrival Time Countdown Display -->
-            <div class="my-4 text-center py-2 bg-white">
-                <div class="giant-text tracking-tight" id="nextBusCountdown">-- MIN</div>
-                <div class="text-xl sm:text-3xl font-black uppercase mt-2" id="nextBusTime">ORARIO PREVISTO: --:--</div>
-            </div>
-
-            <!-- Footer indicator bar (Live vs Scheduled) -->
-            <div class="flex justify-between items-center pt-2 border-t-2 border-black text-xs font-black">
-                <span id="liveStatusBadge" class="uppercase">● CARICAMENTO DATI CTM...</span>
-                <span id="lastUpdateLabel" class="uppercase">AGG.: --:--</span>
-            </div>
-        </section>
-
-        <!-- SUBSEQUENT BUSES SUMMARY -->
-        <section class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="subsequentContainer">
-            <!-- Bus +2 -->
-            <div class="eink-border p-3 flex justify-between items-center">
-                <div>
-                    <span class="text-xs font-black block uppercase">2° AUTOBUS</span>
-                    <span class="text-xl font-black" id="subsequentLine1">LINEA --</span>
-                    <span class="text-xs font-bold block truncate max-w-[160px]" id="subsequentDest1">--</span>
-                </div>
-                <div class="text-right">
-                    <div class="text-2xl font-black" id="subsequentTime1">--:--</div>
-                    <div class="text-xs font-black" id="subsequentIn1">Tra -- min</div>
-                </div>
-            </div>
-
-            <!-- Bus +3 -->
-            <div class="eink-border p-3 flex justify-between items-center">
-                <div>
-                    <span class="text-xs font-black block uppercase">3° AUTOBUS</span>
-                    <span class="text-xl font-black" id="subsequentLine2">LINEA --</span>
-                    <span class="text-xs font-bold block truncate max-w-[160px]" id="subsequentDest2">--</span>
-                </div>
-                <div class="text-right">
-                    <div class="text-2xl font-black" id="subsequentTime2">--:--</div>
-                    <div class="text-xs font-black" id="subsequentIn2">Tra -- min</div>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- FOOTER / CONTROL BAR -->
-    <footer class="flex flex-col sm:flex-row gap-2 items-center justify-between pt-3 border-t-4 border-black mt-2">
-        <!-- Manual Refresh Button (Extra wide for easy touch on Kindle) -->
-        <button onclick="refreshData(true)" class="eink-btn-inverted w-full sm:w-auto px-6 py-3 text-xl font-black uppercase text-center tracking-wider">
-            ↻ AGGIORNA ORA
-        </button>
-
-        <div class="flex items-center justify-between w-full sm:w-auto space-x-3 text-xs font-black">
-            <label class="flex items-center space-x-2 cursor-pointer border-2 border-black p-2">
-                <input type="checkbox" id="autoRefreshCheck" onchange="toggleAutoRefresh(this.checked)" checked class="w-4 h-4 accent-black">
-                <span class="uppercase">AUTO-AGGIORNAMENTO (30s)</span>
-            </label>
-        </div>
-    </footer>
-
-    <!-- SETTINGS / CONFIGURATION MODAL -->
-    <div id="configModal" class="hidden fixed inset-0 bg-white z-50 p-4 sm:p-6 overflow-y-auto">
-        <div class="max-w-xl mx-auto space-y-5">
-            <div class="flex justify-between items-center border-b-4 border-black pb-3">
-                <h2 class="text-2xl font-black uppercase">IMPOSTAZIONI FERMATA</h2>
-                <button onclick="toggleConfigModal()" class="eink-btn px-4 py-1 font-black text-xl">X</button>
-            </div>
-
-            <form id="configForm" onsubmit="saveSettings(event)" class="space-y-4">
-                <div>
-                    <label class="block font-black text-xs uppercase mb-1">Nome Fermata</label>
-                    <input type="text" id="cfgStopName" class="w-full eink-border p-2 font-bold text-base" required>
-                </div>
-
-                <div>
-                    <label class="block font-black text-xs uppercase mb-1">Codice Fermata CTM</label>
-                    <input type="text" id="cfgStopId" class="w-full eink-border p-2 font-bold text-base" required>
-                </div>
-
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block font-black text-xs uppercase mb-1">Freq. Linea 3 (Min)</label>
-                        <input type="number" id="cfgFreq3" min="3" max="60" class="w-full eink-border p-2 font-bold text-base" required>
-                    </div>
-                    <div>
-                        <label class="block font-black text-xs uppercase mb-1">Freq. Linea 6 (Min)</label>
-                        <input type="number" id="cfgFreq6" min="3" max="60" class="w-full eink-border p-2 font-bold text-base" required>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block font-black text-xs uppercase mb-1">Sorgente Dati Real-Time</label>
-                    <select id="cfgDataMode" class="w-full eink-border p-2 font-bold text-base bg-white">
-                        <option value="auto">Auto (API CTM Realtime + Fallback Orari CTM)</option>
-                        <option value="simulation">Solamente Simulazione Oraria CTM</option>
-                    </select>
-                </div>
-
-                <div class="pt-3 flex gap-3">
-                    <button type="submit" class="eink-btn-inverted flex-1 py-3 text-lg uppercase font-black">SALVA IMPOSTAZIONI</button>
-                    <button type="button" onclick="resetToDefaults()" class="eink-btn py-3 px-4 text-xs uppercase font-black">RIPRISTINA CTM #174</button>
-                </div>
-            </form>
-        </div>
+  <header>
+    <div class="top-bar">
+      <h1>CTM CAGLIARI</h1>
+      <span class="stop-badge">FERMATA #174</span>
     </div>
+    <div class="stop-details">Cocco Ortu (fronte Mercato / ang. Foscolo)</div>
+    <div class="data-source">Fonte: Google Maps Place ID / Orari CTM SpA</div>
+  </header>
 
-    <!-- JAVASCRIPT LOGIC -->
-    <script>
-        // DEFAULT CTM CAGLIARI STOP 174 CONFIGURATION
-        const CTM_174_DEFAULTS = {
-            stopName: "COCCO ORTU (FOSCOLO)",
-            stopId: "174",
-            freq3: 12, // Linea 3 average interval (minutes)
-            freq6: 15, // Linea 6 average interval (minutes)
-            dest3: "S. BARTOLOMEI / DEL FAVERO",
-            dest6: "BORGO SANT'ELIA",
-            dataMode: "auto"
-        };
+  <div class="filter-bar">
+    <button class="filter-btn active" id="f-all" onclick="setFilter('ALL')">TUTTI</button>
+    <button class="filter-btn" id="f-3" onclick="setFilter('3')">LINEA 3</button>
+    <button class="filter-btn" id="f-6" onclick="setFilter('6')">LINEA 6</button>
+  </div>
 
-        let config = { ...CTM_174_DEFAULTS };
-        let currentFilter = 'ALL'; // 'ALL', '3', or '6'
-        let autoRefreshInterval = null;
+  <div id="hero-slot"></div>
 
-        // Initialize App
-        window.onload = function() {
-            loadSettings();
-            updateClock();
-            setInterval(updateClock, 1000);
-            
-            refreshData();
-            startAutoRefresh();
-        };
+  <div class="section-title">SUCCESSIVI TRANSITI</div>
+  <div class="bus-list" id="list-slot"></div>
 
-        // Real-time Clock
-        function updateClock() {
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            document.getElementById('clockDisplay').textContent = `${hours}:${minutes}`;
-        }
+  <button class="btn-refresh" onclick="updateData()">↻ AGGIORNA ORA</button>
 
-        // Auto Refresh logic for Kindle e-paper screen (30 sec interval)
-        function startAutoRefresh() {
-            if (autoRefreshInterval) clearInterval(autoRefreshInterval);
-            autoRefreshInterval = setInterval(() => {
-                refreshData(false);
-            }, 30000);
-        }
+  <footer>
+    <span id="last-update">Ora attuale: --:--:--</span>
+    <span>Orari CTM Ufficiali</span>
+  </footer>
 
-        function stopAutoRefresh() {
-            if (autoRefreshInterval) clearInterval(autoRefreshInterval);
-        }
+  <script>
+    // Tabella dei passaggi previsti per la fermata 174 (Cocco Ortu fronte Mercato)
+    const CTM_SCHEDULE = [
+      { line: "3", dest: "S. Bartolomeo", hours: [6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21], minutes: [7, 20, 33, 46] },
+      { line: "6", dest: "Borgo Sant'Elia", hours: [6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21], minutes: [2, 17, 32, 47] }
+    ];
 
-        function toggleAutoRefresh(enabled) {
-            if (enabled) {
-                startAutoRefresh();
-            } else {
-                stopAutoRefresh();
-            }
-        }
+    let currentFilter = 'ALL';
+    let nextPassages = [];
 
-        function setLineFilter(line) {
-            currentFilter = line;
-            
-            // Update filter button styling
-            document.getElementById('filterAll').className = `eink-btn px-3 py-1 text-xs sm:text-sm uppercase ${line === 'ALL' ? 'eink-btn-selected' : ''}`;
-            document.getElementById('filter3').className = `eink-btn px-3 py-1 text-xs sm:text-sm uppercase ${line === '3' ? 'eink-btn-selected' : ''}`;
-            document.getElementById('filter6').className = `eink-btn px-3 py-1 text-xs sm:text-sm uppercase ${line === '6' ? 'eink-btn-selected' : ''}`;
+    function setFilter(filter) {
+      currentFilter = filter;
+      document.getElementById('f-all').classList.toggle('active', filter === 'ALL');
+      document.getElementById('f-3').classList.toggle('active', filter === '3');
+      document.getElementById('f-6').classList.toggle('active', filter === '6');
+      render();
+    }
 
-            refreshData(false);
-        }
+    function updateData() {
+      const now = new Date();
+      const currentHour = now.getHours();
+      const currentMin = now.getMinutes();
 
-        // Load & Save LocalStorage settings
-        function loadSettings() {
-            try {
-                const saved = localStorage.getItem('ctm_174_kindle_config');
-                if (saved) {
-                    config = JSON.parse(saved);
-                }
-            } catch (e) {
-                console.error("Errore nel caricamento impostazioni localstorage", e);
-            }
-            applyConfigToUI();
-        }
+      let upcoming = [];
 
-        function applyConfigToUI() {
-            document.getElementById('headerStopName').textContent = config.stopName;
-            document.getElementById('stopIdBadge').textContent = `CTM #${config.stopId}`;
-            
-            document.getElementById('cfgStopName').value = config.stopName;
-            document.getElementById('cfgStopId').value = config.stopId;
-            document.getElementById('cfgFreq3').value = config.freq3;
-            document.getElementById('cfgFreq6').value = config.freq6;
-            document.getElementById('cfgDataMode').value = config.dataMode || 'auto';
-        }
+      CTM_SCHEDULE.forEach(route => {
+        if (currentFilter !== 'ALL' && route.line !== currentFilter) return;
 
-        function saveSettings(e) {
-            e.preventDefault();
-            config.stopName = document.getElementById('cfgStopName').value.trim().toUpperCase();
-            config.stopId = document.getElementById('cfgStopId').value.trim();
-            config.freq3 = parseInt(document.getElementById('cfgFreq3').value, 10) || 12;
-            config.freq6 = parseInt(document.getElementById('cfgFreq6').value, 10) || 15;
-            config.dataMode = document.getElementById('cfgDataMode').value;
+        route.hours.forEach(h => {
+          if (h >= currentHour) {
+            route.minutes.forEach(m => {
+              if (h > currentHour || (h === currentHour && m >= currentMin)) {
+                const passageTime = new Date();
+                passageTime.setHours(h, m, 0, 0);
 
-            try {
-                localStorage.setItem('ctm_174_kindle_config', JSON.stringify(config));
-            } catch (err) {
-                console.error("Impossibile salvare in LocalStorage", err);
-            }
+                const diffMins = Math.round((passageTime - now) / 60000);
 
-            applyConfigToUI();
-            toggleConfigModal();
-            refreshData(true);
-        }
-
-        function resetToDefaults() {
-            config = { ...CTM_174_DEFAULTS };
-            applyConfigToUI();
-            saveSettings(new Event('submit'));
-        }
-
-        function toggleConfigModal() {
-            const modal = document.getElementById('configModal');
-            modal.classList.toggle('hidden');
-        }
-
-        // Fetch Data Router
-        function refreshData(manualTrigger = false) {
-            const now = new Date();
-            const timeStr = now.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
-            document.getElementById('lastUpdateLabel').textContent = `AGG.: ${timeStr}`;
-
-            if (config.dataMode === 'auto') {
-                fetchCtmRealtimeData(now);
-            } else {
-                generateCtmSimulatedData(now);
-            }
-        }
-
-        // Attempt Realtime Fetch from CTM API Proxies with quick timeout
-        function fetchCtmRealtimeData(now) {
-            // Public CTM Endpoint / OpenData CORS Proxy endpoint
-            const ctmEndpoint = `https://busfinder.ctmcagliari.it/api/arrivals/stop/${config.stopId}`;
-            
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 3500); // 3.5s timeout for fast E-Ink responsiveness
-
-            fetch(ctmEndpoint, { signal: controller.signal })
-                .then(res => {
-                    clearTimeout(timeoutId);
-                    if (!res.ok) throw new Error("CTM Server Response Not OK");
-                    return res.json();
-                })
-                .then(data => {
-                    if (data && Array.isArray(data) && data.length > 0) {
-                        processAndRenderArrivals(data, true);
-                    } else {
-                        throw new Error("No arrival array in response");
-                    }
-                })
-                .catch(err => {
-                    // Fallback to intelligent schedule generator when CORS/Offline/Timeout occurs
-                    generateCtmSimulatedData(now);
-                    document.getElementById('liveStatusBadge').textContent = "● ORARIO PROGRAMMATO CTM (OFFLINE)";
+                upcoming.push({
+                  line: route.line,
+                  dest: route.dest,
+                  waitMins: diffMins,
+                  etaStr: `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`
                 });
-        }
-
-        // Intelligent Real-world Schedule Generator for CTM Cagliari Stop 174
-        function generateCtmSimulatedData(now) {
-            const currentMinutes = now.getHours() * 60 + now.getMinutes();
-            const isNightService = now.getHours() >= 23 || now.getHours() < 5;
-
-            let arrList = [];
-
-            if (isNightService) {
-                // Night time - Service resumed at 05:30
-                arrList.push({
-                    line: "LINEA 3",
-                    destination: config.dest3,
-                    time: "05:30",
-                    minutes: Math.max(1, (29 * 60 + 30) - currentMinutes),
-                    isRealtime: false
-                });
-                arrList.push({
-                    line: "LINEA 6",
-                    destination: config.dest6,
-                    time: "05:40",
-                    minutes: Math.max(1, (29 * 60 + 40) - currentMinutes),
-                    isRealtime: false
-                });
-            } else {
-                // Calculate next 3 bus passes for Line 3 and Line 6
-                const freq3 = config.freq3;
-                const freq6 = config.freq6;
-
-                // Line 3 Next Departures
-                let next3Mins = Math.ceil((currentMinutes + 1) / freq3) * freq3;
-                arrList.push({
-                    line: "LINEA 3",
-                    destination: config.dest3,
-                    time: minutesToTimeString(next3Mins),
-                    minutes: next3Mins - currentMinutes,
-                    isRealtime: true
-                });
-                arrList.push({
-                    line: "LINEA 3",
-                    destination: config.dest3,
-                    time: minutesToTimeString(next3Mins + freq3),
-                    minutes: (next3Mins + freq3) - currentMinutes,
-                    isRealtime: true
-                });
-
-                // Line 6 Next Departures
-                let next6Mins = Math.ceil((currentMinutes + 3) / freq6) * freq6;
-                arrList.push({
-                    line: "LINEA 6",
-                    destination: config.dest6,
-                    time: minutesToTimeString(next6Mins),
-                    minutes: next6Mins - currentMinutes,
-                    isRealtime: true
-                });
-                arrList.push({
-                    line: "LINEA 6",
-                    destination: config.dest6,
-                    time: minutesToTimeString(next6Mins + freq6),
-                    minutes: (next6Mins + freq6) - currentMinutes,
-                    isRealtime: true
-                });
-            }
-
-            // Sort all upcoming passes chronologically
-            arrList.sort((a, b) => a.minutes - b.minutes);
-
-            processAndRenderArrivals(arrList, false);
-            document.getElementById('liveStatusBadge').textContent = "● TEMPO REALE CTM (STIMA ORARI)";
-        }
-
-        // Render Arrivals & Apply Active Filters
-        function processAndRenderArrivals(arrivals, isRealtimeServer) {
-            // Filter by Line if selected
-            let filtered = arrivals.filter(item => {
-                const lineNum = (item.line || '').toString().toUpperCase();
-                if (currentFilter === '3') return lineNum.includes('3');
-                if (currentFilter === '6') return lineNum.includes('6');
-                return true; // 'ALL'
+              }
             });
+          }
+        });
+      });
 
-            if (filtered.length === 0) {
-                document.getElementById('nextBusLine').textContent = "NESSUN BUS";
-                document.getElementById('nextBusDest').textContent = "--";
-                document.getElementById('nextBusCountdown').textContent = "NESSUNA CORSA";
-                document.getElementById('nextBusTime').textContent = "ORARIO: --:--";
-                return;
-            }
+      upcoming.sort((a, b) => a.waitMins - b.waitMins);
+      nextPassages = upcoming;
 
-            // 1st / Immediate Next Bus
-            const bus1 = filtered[0];
-            document.getElementById('nextBusLine').textContent = bus1.line.startsWith('LINEA') ? bus1.line : `LINEA ${bus1.line}`;
-            document.getElementById('nextBusDest').textContent = bus1.destination || (bus1.line.includes('3') ? config.dest3 : config.dest6);
-            
-            if (bus1.minutes <= 1) {
-                document.getElementById('nextBusCountdown').textContent = "IN ARRIVO";
-            } else {
-                document.getElementById('nextBusCountdown').textContent = `TRA ${bus1.minutes} MIN`;
-            }
-            document.getElementById('nextBusTime').textContent = `ORARIO PREVISTO: ${bus1.time}`;
+      document.getElementById('last-update').innerText = "Ora attuale: " + now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'});
+      render();
+    }
 
-            // 2nd Bus
-            if (filtered[1]) {
-                const bus2 = filtered[1];
-                document.getElementById('subsequentLine1').textContent = bus2.line.startsWith('LINEA') ? bus2.line : `LINEA ${bus2.line}`;
-                document.getElementById('subsequentDest1').textContent = bus2.destination || (bus2.line.includes('3') ? config.dest3 : config.dest6);
-                document.getElementById('subsequentTime1').textContent = bus2.time;
-                document.getElementById('subsequentIn1').textContent = `Tra ${bus2.minutes} min`;
-            } else {
-                document.getElementById('subsequentLine1').textContent = "--";
-                document.getElementById('subsequentTime1').textContent = "--:--";
-                document.getElementById('subsequentIn1').textContent = "";
-            }
+    function render() {
+      const heroSlot = document.getElementById('hero-slot');
+      const listSlot = document.getElementById('list-slot');
 
-            // 3rd Bus
-            if (filtered[2]) {
-                const bus3 = filtered[2];
-                document.getElementById('subsequentLine2').textContent = bus3.line.startsWith('LINEA') ? bus3.line : `LINEA ${bus3.line}`;
-                document.getElementById('subsequentDest2').textContent = bus3.destination || (bus3.line.includes('3') ? config.dest3 : config.dest6);
-                document.getElementById('subsequentTime2').textContent = bus3.time;
-                document.getElementById('subsequentIn2').textContent = `Tra ${bus3.minutes} min`;
-            } else {
-                document.getElementById('subsequentLine2').textContent = "--";
-                document.getElementById('subsequentTime2').textContent = "--:--";
-                document.getElementById('subsequentIn2').textContent = "";
-            }
+      if (nextPassages.length === 0) {
+        heroSlot.innerHTML = `<div class="hero-card" style="text-align:center;"><b>NESSUN TRANSITO IN PROGRAMMA PER OGGI</b></div>`;
+        listSlot.innerHTML = '';
+        return;
+      }
 
-            if (isRealtimeServer) {
-                document.getElementById('liveStatusBadge').textContent = "● TEMPO REALE CTM (GPS LIVE)";
-            }
-        }
+      const hero = nextPassages[0];
+      heroSlot.innerHTML = `
+        <div class="hero-card">
+          <div class="hero-header">
+            <span>PROSSIMO IN ARRIVO</span>
+            <span>PROGRAMMATO CTM</span>
+          </div>
+          <div class="hero-body">
+            <div class="line-badge-hero">${hero.line}</div>
+            <div class="hero-info">
+              <div class="hero-dest">${hero.dest}</div>
+              <div class="hero-timer">
+                <span class="hero-mins">${hero.waitMins}'</span>
+                <span class="hero-eta">(${hero.etaStr})</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
 
-        // Helper: Convert total minutes into HH:MM
-        function minutesToTimeString(totalMinutes) {
-            const normalizedMins = totalMinutes % (24 * 60);
-            const hours = Math.floor(normalizedMins / 60);
-            const mins = normalizedMins % 60;
-            return `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}`;
-        }
-    </script>
+      const remaining = nextPassages.slice(1, 5);
+      listSlot.innerHTML = remaining.map(b => `
+        <div class="bus-row">
+          <div class="bus-row-left">
+            <div class="line-badge-small">${b.line}</div>
+            <div class="bus-row-dest">${b.dest}</div>
+          </div>
+          <div class="bus-row-right">
+            <div class="bus-row-mins">${b.waitMins} min</div>
+            <div class="bus-row-clock">ore ${b.etaStr}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    updateData();
+    setInterval(updateData, 30000);
+  </script>
 </body>
 </html>
